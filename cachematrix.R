@@ -3,13 +3,35 @@
 
 ## Write a short comment describing this function
 
+# makeCacheMatrix stores values for the matrix and inverse
 makeCacheMatrix <- function(x = matrix()) {
-
+	my_matrix<- x  
+	my_inverse<- NULL
+	
+	get<- function() {
+		my_matrix  
+	}
+	set<- function(x) {
+		my_matrix<<-x
+	}
+	set_inverse<- function(x) {
+		my_inverse<<- x
+	}
+	get_inverse<- function() {
+		my_inverse
+	}
+	list(set = set, get = get, set_inverse = set_inverse, get_inverse = get_inverse)
 }
 
-
-## Write a short comment describing this function
+## cacheSolve caching the inverse matrix of type makeCacheMatrix
+## provide instantiated makeCacheMatrix as x
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+	inv<- x$get_inverse() 
+	if (is.null(inv)) { 
+		m<- x$get() 
+		inv<- solve(m) 
+		x$set_inverse(inv) 
+	}
+	return(x$get_inverse()) 
 }
